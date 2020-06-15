@@ -1,0 +1,25 @@
+<h1>{{ sicklist.title}}</h1>
+
+
+<form action="{% url 'create_record' sicklist.id %}" method="POST">
+    {% csrf_token %}
+    <input type="text" name="condition" maxlength="1000" size="80" placeholder="Condition" value="{{ condition }}"/>
+    <br />
+    <input type="text" name="medicines" maxlength="1000" size="80" placeholder="Medicines" value="{{ medicines }}"/>
+    <br />
+    <textarea name="text" maxlength="4096" rows="10" cols="80" placeholder="Record text">{{ text }}</textarea>
+    <br />
+    <input type="submit" value="Create post" />
+</form>
+
+
+<ul>
+    {% for record in records %}
+    <li>
+        <i>
+            {{record.created_at}}
+        </i> <br/>
+        <p> {{record.text}} </p>
+    </li>
+    {% endfor %}
+</ul>
