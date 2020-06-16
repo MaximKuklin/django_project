@@ -1,6 +1,8 @@
 from django.db.models import *
+from django.contrib.auth.models import User
 
 class SickList(Model):
+    doctor = ForeignKey(User, on_delete=CASCADE)
     title = CharField(max_length=200)
     created_at = DateTimeField(auto_now_add=True)
 

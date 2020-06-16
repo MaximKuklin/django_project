@@ -12,14 +12,27 @@
     <input type="submit" value="Create post" />
 </form>
 
+{% if error %}
+<p style="color:red;">{{ error }}</p>
+{% endif %}
+
+
+<h2>Records:</h2>
 
 <ul>
     {% for record in records %}
     <li>
         <i>
-            {{record.created_at}}
+            Date: {{record.created_at}}
+        </i> <br/> <br/>
+        <i>
+            Person condition: {{record.condition}}
+        </i> <br/>
+        <i>
+            Medicines: {{record.medicines}}
         </i> <br/>
         <p> {{record.text}} </p>
+        <br/>
     </li>
     {% endfor %}
 </ul>
