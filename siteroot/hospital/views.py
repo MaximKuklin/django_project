@@ -1,4 +1,4 @@
-from django.http import HttpResponse, HttpResponseRedirect, Http404
+from django.http import HttpResponse, HttpResponseRedirect, Http404, HttpResponseForbidden
 from .models import SickList, Record
 from django.template import loader
 from django.urls import reverse
@@ -20,12 +20,12 @@ def get_list(request, sicklist_id):
     return HttpResponse(render(request, 'hospital/sicklist.html', context))
 
 
-@login_required(login_url='/hospital/login')
+# @login_required(login_url='/hospital/login')
 def get_sicklist(request, sicklist_id):
     render_sicklist(request, sicklist_id)
 
 
-@login_required(login_url='/hospital/login')
+# @login_required(login_url='/hospital/login')
 def get_all_lists(request):
     all_lists = SickList.objects.all()
     context = {'sicklists': all_lists}
@@ -42,6 +42,9 @@ def render_sicklist(request, sicklist_id, additional_context={}):
 @login_required(login_url='/hospital/login')
 def create_record(request, sicklist_id):
     sicklist = get_object_or_404(SickList, pk=sicklist_id)
+
+    if sicklist.doctor_id != request.user.id:
+        return HttpResponseForbidden('You can not add record here')
 
     error_message = None
 
@@ -72,12 +75,23 @@ def log_in(request):
             user = authenticate(username=username, password=password)
             if user is not None:
                 login(request, user)
-                return redirect(request.GET['next'])
+                redirect_url = request.GET.get('next')
+                if redirect_url:
+                    if not user.is_staff:
+                        sicklist = SickList.objects.filter(doctor_id=user.id).first()
+                    else:
+                        sicklist = None
+                    if sicklist:
+                        redirect_url = reverse('sicklist_by_id', kwargs={'sicklist_id': sicklist.id})
+                    else:
+                        redirect_url = reverse('index')
+                return redirect(redirect_url)
             else:
                 form.add_error(None, 'Invalid credentials!')
     else:
         form = LoginForm()
     return HttpResponse(render(request, 'hospital/login.html', {'form': form}))
+
 
 def sign_up(request):
     if request.method == "POST":
@@ -102,3 +116,9 @@ def sign_up(request):
     else:
         form = RegistrationForm()
     return render(request, 'hospital/singup.html', {'form': form})
+
+
+def log_out(request):
+    logout(request)
+    redirect_url = request.GET.get('next') or reverse('index')
+    return redirect(redirect_url)
