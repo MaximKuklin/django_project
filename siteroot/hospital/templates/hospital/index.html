@@ -1,7 +1,13 @@
-<h1>
+{% extends 'hospital/base.html' %}
+
+{% block content %}
+
+<h2>
     <ul>
         {% for sicklist in sicklists %}
         <li> List #{{sicklist.id}} <a href="{% url 'sicklist_by_id' sicklist.id %}"> {{sicklist.title}}</a> </li>
         {% endfor%}
     </ul>
-</h1>
+</h2>
+
+{% endblock %}

@@ -65,11 +65,10 @@ def create_record(request, sicklist_id):
         return HttpResponseRedirect(reverse('sicklist_by_id', kwargs={'sicklist_id': sicklist_id}))
 
 def log_in(request):
-    if request.method == "POST":
+    if request.method == 'POST':
         logout(request)
         form = LoginForm(request.POST)
         if form.is_valid():
-
             username = form.cleaned_data['username']
             password = form.cleaned_data['password']
             user = authenticate(username=username, password=password)

@@ -1,16 +1,8 @@
-{% if request.user.is_authenticated %}
-<p> Welcome, {{request.user.username}}! <a href="{% url 'logout' %}?next{{ request.path }}">Log out</a></p>
-{% else %}
-<p>
-    Welcome! Are you a doctor? Please,
-    <a href="{% url 'login' %}?next{{ request.path }}">Log in</a>
-    or
-    <a href="{% url 'signup' %}?next{{ request.path }}">Sign up</a>
-    create a new user
-</p>
-{% endif %}
-<hr/>
+{% extends 'hospital/base.html' %}
 
+{% block title %}{{ sicklist.title }}{% endblock %}
+
+{% block content %}
 
 <h1>{{ sicklist.title}}</h1>
 
@@ -54,3 +46,5 @@
     </li>
     {% endfor %}
 </ul>
+
+{% endblock %}
