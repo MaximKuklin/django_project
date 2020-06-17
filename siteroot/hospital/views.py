@@ -48,6 +48,7 @@ def create_record(request, sicklist_id):
 
     error_message = None
 
+    person = request.POST['person']
     condition = request.POST['condition']
     meds = request.POST['medicines']
     text = request.POST['text']
@@ -57,10 +58,10 @@ def create_record(request, sicklist_id):
     elif not text or text.isspace():
         error_message = 'Please provide non-empty patient record!'
     if error_message:
-        context = {'error': error_message, 'medicines': meds, 'condition': condition, 'text': text}
+        context = {'error': error_message, 'medicines': meds, 'person': person, 'condition': condition, 'text': text}
         return render_sicklist(request, sicklist_id, additional_context=context)
     else:
-        Record.objects.create(sick_list=sicklist, condition=request.POST['condition'],
+        Record.objects.create(sick_list=sicklist, condition=request.POST['condition'], person=person,
                               medicines=request.POST['medicines'], text=request.POST['text'])
         return HttpResponseRedirect(reverse('sicklist_by_id', kwargs={'sicklist_id': sicklist_id}))
 

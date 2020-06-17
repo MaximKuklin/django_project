@@ -5,7 +5,7 @@
 <h2>
     <ul>
         {% for sicklist in sicklists %}
-        <li> List #{{sicklist.id}} <a href="{% url 'sicklist_by_id' sicklist.id %}"> {{sicklist.title}}</a> </li>
+        <li> List #{{sicklist.id}} <a href="{% url 'sicklist_by_id' sicklist.id %}"> {{sicklist.title}}</a> for doctor: {{sicklist.doctor.username }} </li>
         {% endfor%}
     </ul>
 </h2>

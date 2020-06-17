@@ -11,13 +11,15 @@
 
 <form action="{% url 'create_record' sicklist.id %}" method="POST">
     {% csrf_token %}
+    <input type="text" name="person" maxlength="1000" size="80" placeholder="Person" value="{{ person }}"/>
+    <br />
     <input type="text" name="condition" maxlength="1000" size="80" placeholder="Condition" value="{{ condition }}"/>
     <br />
     <input type="text" name="medicines" maxlength="1000" size="80" placeholder="Medicines" value="{{ medicines }}"/>
     <br />
     <textarea name="text" maxlength="4096" rows="10" cols="80" placeholder="Record text">{{ text }}</textarea>
     <br />
-    <input type="submit" value="Create post" />
+    <input type="submit" value="Create record" />
 </form>
 
 {% if error %}
@@ -35,6 +37,9 @@
         <i>
             Date: {{record.created_at}}
         </i> <br/> <br/>
+        <i>
+            Person: {{record.person}}
+        </i> <br/>
         <i>
             Person condition: {{record.condition}}
         </i> <br/>

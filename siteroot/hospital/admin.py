@@ -10,8 +10,8 @@ class RecordInline(admin.TabularInline):
 
     model = Record
 
-    fields = ('condition', 'text', 'created_at', 'is_modified')
-    readonly_fields = ('condition', 'text', 'created_at', 'is_modified')
+    fields = ('person', 'condition', 'text', 'created_at', 'is_modified')
+    readonly_fields = ('person', 'condition', 'text', 'created_at', 'is_modified')
     ordering = ('-created_at',)
     show_change_link = True
 
@@ -34,7 +34,7 @@ class RecordAdmin(admin.ModelAdmin):
     list_display = ('doctor', 'title', 'condition', 'text', 'created_at', 'is_modified')
     ordering = ('-created_at',)
     list_display_links = ('title',)
-    fields = ('sick_list', 'title', 'condition', 'text', 'created_at', 'updated_at')
+    fields = ('sick_list', 'condition', 'text', 'created_at', 'updated_at')
     readonly_fields = ('sick_list', 'created_at', 'updated_at')
     doctor.admin_order_field = 'doctor'
 
@@ -52,7 +52,7 @@ class SickListAdmin(admin.ModelAdmin):
     def updated_at(self, obj):
         return obj.updated_at
 
-    list_display = ('title', 'doctor', 'created_at')
+    list_display = ('title', 'doctor', 'updated_at')
     ordering = ('title',)
     fields = ('title', 'doctor', 'created_at')
     readonly_fields = ('created_at',)

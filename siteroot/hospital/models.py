@@ -17,6 +17,7 @@ class SickList(Model):
 
 class Record(Model):
     sick_list = ForeignKey(SickList, on_delete=CASCADE)
+    person = CharField(max_length=200)
     condition = CharField(max_length=100)
     medicines = TextField(max_length=200)
     text = TextField(max_length=4096)

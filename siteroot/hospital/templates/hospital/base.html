@@ -7,16 +7,19 @@
 <body>
 
 {% if request.user.is_authenticated %}
-<p> Welcome, {{request.user.username}}! <a href="{% url 'logout' %}?next={{ request.path }}">Log out</a></p>
+<p> Hello, {{request.user.username}}! <a href="{% url 'logout' %}?next={{ request.path }}">Log out</a></p>
 {% else %}
 <p>
-    Welcome! Are you a doctor? Please,
+    Hello! Are you a doctor? Please,
     <a href="{% url 'login' %}?next={{ request.path }}">Log in</a>
     or
     <a href="{% url 'signup' %}?next={{ request.path }}">Sign up</a>
     create a new user
 </p>
 {% endif %}
+
+<a href="{% url 'index' %}?next={{ request.path }}">All lists</a>
+
 <hr/>
 
 {% block content %}{% endblock %}
